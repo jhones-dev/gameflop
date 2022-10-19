@@ -1,0 +1,88 @@
+type Query {
+  Accounts(
+    where: AccountWhereInput
+    include: AccountIncludeInput
+    orderBy: AccountOrderByInput
+    skip: Int
+    take: Int
+  ): [AccountArrayResult]
+}
+
+type Mutation {
+  AddAccount(
+    email: String!
+    password: String
+    socialMedia: JSON
+    lastAccess: JSON
+  ): AccountOperationResult!
+  Login(email: String!, password: String!): AccountOperationResult!
+}
+
+union AccountResult = Account | InputError | InternalError
+union AccountArrayResult = AccountList | InputError | InternalError
+union AccountOperationResult = AccountResultSuccess | InputError | InternalError
+
+type Account {
+  id: Int!
+  email: String!
+  password: String
+  socialMedia: SocialMedia
+  lastAccess: LastAccess
+  createdAt: Date
+  updatedAt: Date
+}
+
+type AccountList {
+  accounts: [Account]
+}
+
+type AccountResultSuccess {
+  statusCode: String!
+  message: String!
+}
+
+type SocialMedia {
+  website: String
+  twitter: String
+}
+
+type LastAccess {
+  ip: String
+  date: Date
+  userAgent: String
+}
+
+input AccountInput {
+  id: Int
+  email: String
+  socialMedia: JSON
+  lastAccess: JSON
+  createdAt: Date
+  updatedAt: Date
+}
+
+input AccountWhereInput {
+  AND: [AccountInput]
+  OR: [AccountInput]
+  NOT: [AccountInput]
+  id: Int
+  email: String
+  socialMedia: JSON
+  lastAccess: JSON
+  createdAt: Date
+  updatedAt: Date
+}
+
+input AccountIncludeInput {
+  companies: Boolean
+  users: Boolean
+}
+
+input AccountOrderByInput {
+  id: OrderBy
+  email: OrderBy
+  socialMedia: OrderBy
+  lastAccess: OrderBy
+  createdAt: OrderBy
+  updatedAt: OrderBy
+}

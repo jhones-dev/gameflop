@@ -1,0 +1,93 @@
+type Query {
+  Companies(
+    where: CompanyWhereInput
+    include: CompanyIncludeInput
+    orderBy: CompanyOrderByInput
+    skip: Int
+    take: Int
+  ): CompanyArrayResult
+}
+
+type Mutation {
+  AddCompany(
+    name: String!
+    accountId: Int!
+    logo: String
+    verified: Boolean
+    employees: [CompanyEmployeesInput]
+  ): CompanyOperationResult
+  AddAccountWithCompany(
+    email: String!
+    password: String
+    name: String!
+    logo: String
+    verified: Boolean
+    employees: [CompanyEmployeesInput]
+  ): CompanyOperationResult
+}
+
+union CompanyResult = Company | InputError | InternalError
+union CompanyArrayResult = CompanyList | InputError | InternalError
+union CompanyOperationResult = CompanyResultSuccess | InputError | InternalError
+
+type Company {
+  id: Int!
+  accountId: Int!
+  name: String!
+  logo: String
+  verified: Boolean!
+  employees: [CompanyEmployees]
+}
+
+type CompanyList {
+  companies: [Company]
+}
+
+type CompanyResultSuccess {
+  statusCode: String!
+  message: String!
+}
+
+type CompanyEmployees {
+  userId: Int!
+  status: EmployeeStatus!
+}
+
+input CompanyInput {
+  id: Int
+  accountId: Int
+  name: String
+  logo: String
+  verified: Boolean
+  employees: [Int]
+}
+
+input CompanyWhereInput {
+  AND: [CompanyInput]
+  OR: [CompanyInput]
+  NOT: [CompanyInput]
+  id: Int
+  accountId: Int
+  name: String
+  logo: String
+  verified: Boolean
+  employees: [Int]
+}
+
+input CompanyIncludeInput {
+  accounts: Boolean
+}
+
+input CompanyOrderByInput {
+  id: OrderBy
+  accountId: OrderBy
+  name: OrderBy
+  logo: OrderBy
+  verified: OrderBy
+  employees: OrderBy
+}
+
+input CompanyEmployeesInput {
+  userId: Int!
+  status: EmployeeStatus!
+}

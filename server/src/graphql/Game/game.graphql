@@ -1,0 +1,103 @@
+type Query {
+  Games(
+    where: GameWhereInput
+    include: GameIncludeInput
+    orderBy: GameOrderByInput
+    skip: Int
+    take: Int
+  ): GameArrayResult
+}
+
+type Mutation {
+  AddGame(
+    title: String!
+    slug: String
+    genre: [String]!
+    ageRating: String!
+    publisher: String!
+    developer: String!
+    platform: [String]!
+    releaseDate: Date!
+    thumbnail: String
+    media: [String]
+  ): GameOperationResult
+}
+
+union GameResult = Game | InputError | InternalError
+union GameArrayResult = GameList | InputError | InternalError
+union GameOperationResult = GameResultSuccess | InputError | InternalError
+
+type Game {
+  id: Int!
+  title: String!
+  slug: String!
+  genre: [String]!
+  ageRating: String!
+  publisher: Int!
+  developer: Int!
+  platform: [String]!
+  releaseDate: Date!
+  thumbnail: String
+  media: [String]
+}
+
+type GameList {
+  games: [Game]
+}
+
+type GameResultSuccess {
+  statusCode: String!
+  message: String!
+}
+
+input GameInput {
+  id: Int
+  title: String
+  slug: String
+  genre: [String]
+  ageRating: String
+  publisher: Int
+  developer: Int
+  platform: [String]
+  releaseDate: Date
+  thumbnail: String
+  media: [String]
+}
+
+input GameWhereInput {
+  AND: [GameInput]
+  OR: [GameInput]
+  NOT: [GameInput]
+  id: Int
+  title: String
+  slug: String
+  genre: [String]
+  ageRating: String
+  publisher: Int
+  developer: Int
+  platform: [String]
+  releaseDate: Date
+  thumbnail: String
+  media: [String]
+}
+
+input GameIncludeInput {
+  _count: Boolean
+  developers: Boolean
+  publishers: Boolean
+  reviews: Boolean
+}
+
+input GameOrderByInput {
+  id: OrderBy
+  title: OrderBy
+  slug: OrderBy
+  genre: OrderBy
+  ageRating: OrderBy
+  publisher: OrderBy
+  developer: OrderBy
+  platform: OrderBy
+  releaseDate: OrderBy
+  thumbnail: OrderBy
+  media: OrderBy
+}

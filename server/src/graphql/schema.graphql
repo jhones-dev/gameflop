@@ -1,0 +1,44 @@
+# Data Types
+scalar JSON
+scalar Date
+
+# Enums
+enum OrderBy {
+  asc
+  desc
+}
+
+enum EmployeeStatus {
+  pending
+  accepted
+  rejected
+  removed
+  left
+}
+
+enum ReviewStatus {
+  pending
+  published
+  rejected
+}
+
+# Generics
+interface Error {
+  statusCode: String!
+  message: String!
+}
+
+type InputError implements Error {
+  statusCode: String!
+  message: String!
+  field: String!
+  details: String
+}
+
+type InternalError implements Error {
+  statusCode: String!
+  message: String!
+  action: String!
+  operation: String
+  details: String
+}

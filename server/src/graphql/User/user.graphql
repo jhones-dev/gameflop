@@ -1,0 +1,91 @@
+type Query {
+  Users(
+    where: UserWhereInput
+    include: UserIncludeInput
+    orderBy: UserOrderByInput
+    skip: Int
+    take: Int
+  ): [User]
+}
+
+type Mutation {
+  AddUser(
+    name: String!
+    accountId: Int!
+    photo: String
+    linkedAccounts: LinkedAccountsInput
+    badges: [String]
+    favoriteList: [Int]
+    permission: Int
+  ): User
+  AddAccountWithUser(
+    name: String!
+    email: String!
+    password: String
+    photo: String
+    linkedAccounts: LinkedAccountsInput
+    badges: [String]
+    favoriteList: [Int]
+    permission: Int
+  ): User
+}
+
+type User {
+  id: Int!
+  accountId: Int!
+  name: String!
+  photo: String
+  linkedAccounts: JSON
+  badges: [String]
+  favoriteList: [Int]
+  permission: Int!
+}
+
+input UserInput {
+  id: Int
+  accountId: Int
+  name: String
+  photo: String
+  linkedAccounts: JSON
+  badges: [String]
+  favoriteList: [Int]
+  permission: Int
+}
+
+input UserWhereInput {
+  AND: [UserInput]
+  OR: [UserInput]
+  NOT: [UserInput]
+  id: Int
+  accountId: Int
+  name: String
+  photo: String
+  linkedAccounts: JSON
+  badges: [String]
+  favoriteList: [Int]
+  permission: Int
+}
+
+input UserIncludeInput {
+  _count: Boolean
+  accounts: Boolean
+  reviews: Boolean
+}
+
+input UserOrderByInput {
+  id: OrderBy
+  accountId: OrderBy
+  name: OrderBy
+  photo: OrderBy
+  linkedAccounts: OrderBy
+  badges: OrderBy
+  favoriteList: OrderBy
+  permission: OrderBy
+}
+
+input LinkedAccountsInput {
+  apple: ID
+  facebook: ID
+  google: ID
+  steam: ID
+}

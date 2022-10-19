@@ -1,0 +1,57 @@
+type Query {
+  Developers(
+    where: DeveloperWhereInput
+    include: DeveloperIncludeInput
+    orderBy: DeveloperOrderByInput
+    skip: Int
+    take: Int
+  ): DeveloperArrayResult
+}
+
+type Mutation {
+  AddDeveloper(name: String!): DeveloperOperationResult
+}
+
+union DeveloperResult = Developer | InputError | InternalError
+union DeveloperArrayResult = DeveloperList | InputError | InternalError
+union DeveloperOperationResult =
+    DeveloperResultSuccess
+  | InputError
+  | InternalError
+
+type Developer {
+  id: Int!
+  name: String!
+}
+
+type DeveloperList {
+  developers: [Developer]
+}
+
+type DeveloperResultSuccess {
+  statusCode: String!
+  message: String!
+}
+
+input DeveloperInput {
+  id: Int
+  name: String
+}
+
+input DeveloperWhereInput {
+  AND: [DeveloperInput]
+  OR: [DeveloperInput]
+  NOT: [DeveloperInput]
+  id: Int
+  name: String
+}
+
+input DeveloperIncludeInput {
+  _count: Boolean
+  games: Boolean
+}
+
+input DeveloperOrderByInput {
+  id: OrderBy
+  name: OrderBy
+}

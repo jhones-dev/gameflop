@@ -1,0 +1,86 @@
+type Query {
+  Reviews(
+    where: ReviewWhereInput
+    include: ReviewIncludeInput
+    orderBy: ReviewOrderByInput
+    skip: Int
+    take: Int
+  ): ReviewArrayResult
+}
+
+type Mutation {
+  AddReview(
+    game: Int!
+    rating: Int!
+    author: Int
+    title: String
+    description: String
+    likes: Int
+    status: ReviewStatus
+  ): ReviewOperationResult
+}
+
+union ReviewResult = Review | InputError | InternalError
+union ReviewArrayResult = ReviewList | InputError | InternalError
+union ReviewOperationResult = ReviewResultSuccess | InputError | InternalError
+
+type Review {
+  id: Int!
+  author: Int!
+  game: Int!
+  rating: Int!
+  title: String
+  description: String
+  likes: Int
+  status: ReviewStatus!
+}
+
+type ReviewList {
+  reviews: [Review]
+}
+
+type ReviewResultSuccess {
+  statusCode: String!
+  message: String!
+}
+
+input ReviewInput {
+  id: Int
+  author: Int
+  game: Int
+  rating: Int
+  title: String
+  description: String
+  likes: Int
+  status: ReviewStatus
+}
+
+input ReviewWhereInput {
+  AND: [ReviewInput]
+  OR: [ReviewInput]
+  NOT: [ReviewInput]
+  id: Int
+  author: Int
+  game: Int
+  rating: Int
+  title: String
+  description: String
+  likes: Int
+  status: ReviewStatus
+}
+
+input ReviewIncludeInput {
+  games: Boolean
+  users: Boolean
+}
+
+input ReviewOrderByInput {
+  id: OrderBy
+  author: OrderBy
+  game: OrderBy
+  rating: OrderBy
+  title: OrderBy
+  description: OrderBy
+  likes: OrderBy
+  status: OrderBy
+}

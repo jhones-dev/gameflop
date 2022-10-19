@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model accounts {
+  id          Int        @id @default(autoincrement()) @map("account_id")
+  email       String     @unique @db.VarChar
+  password    String?    @db.VarChar
+  socialMedia Json?      @map("social_media")
+  lastAccess  Json?      @map("last_access") @db.Json
+  createdAt   DateTime?  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime?  @map("updated_at") @db.Timestamptz(6)
+  companies   companies?
+  users       users?
+}
+
+model companies {
+  id        Int      @id @default(autoincrement()) @map("comp_id")
+  accountId Int      @unique @map("account_id")
+  name      String   @db.VarChar(70)
+  logo      String?  @db.VarChar
+  verified  Boolean  @default(false)
+  employees Json[]
+  accounts  accounts @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_comp_account")
+}
+
+model developers {
+  id    Int     @id @default(autoincrement()) @map("dev_id")
+  name  String  @unique @db.VarChar
+  games games[]
+}
+
+model games {
+  id          Int        @id @default(autoincrement()) @map("game_id")
+  title       String     @db.VarChar
+  slug        String     @unique @db.VarChar
+  genre       String[]   @db.VarChar
+  ageRating   String     @map("age_rating") @db.VarChar
+  publisher   Int
+  developer   Int
+  platform    String[]   @db.VarChar
+  releaseDate DateTime   @map("release_date") @db.Date
+  thumbnail   String?    @db.VarChar
+  media       String[]   @db.VarChar
+  developers  developers @relation(fields: [developer], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_dev")
+  publishers  publishers @relation(fields: [publisher], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_pub")
+  reviews     reviews[]
+}
+
+model publishers {
+  id    Int     @id @default(autoincrement()) @map("pub_id")
+  name  String  @unique @db.VarChar
+  games games[]
+}
+
+model reviews {
+  id          Int          @id @default(autoincrement()) @map("review_id")
+  author      Int
+  game        Int
+  rating      Int
+  title       String?      @db.VarChar
+  description String?      @db.VarChar
+  likes       Int?         @default(0)
+  status      reviewstatus @default(pending)
+  games       games        @relation(fields: [game], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_review")
+  users       users        @relation(fields: [author], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_author")
+}
+
+model users {
+  id             Int       @id @default(autoincrement()) @map("user_id")
+  accountId      Int       @unique @map("account_id")
+  name           String    @db.VarChar(70)
+  photo          String?   @db.VarChar
+  linkedAccounts Json?     @map("linked_accounts")
+  badges         String[]  @db.VarChar
+  favoriteList   Int[]     @map("favorite_list")
+  permission     Int       @default(1) @db.SmallInt
+  accounts       accounts  @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_account")
+  reviews        reviews[]
+}
+
+enum reviewstatus {
+  pending
+  published
+  rejected
+}
+
+enum employeestatus {
+  pending
+  accepted
+  rejected
+  removed
+  left
+}
