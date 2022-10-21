@@ -54,6 +54,16 @@ export default {
           statusCode: 'HTTP201',
           message: 'Developer created successfully.',
         };
+      } else {
+        error = {
+          __typename: 'InternalError',
+          statusCode: 'DEV201',
+          message: 'Failed to create developer.',
+          action: 'Developer creation',
+          operation: 'Insert',
+        };
+
+        return error;
       }
     },
   },

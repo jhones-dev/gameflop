@@ -18,9 +18,13 @@ type Mutation {
   Login(email: String!, password: String!): AccountOperationResult!
 }
 
-union AccountResult = Account | InputError | InternalError
-union AccountArrayResult = AccountList | InputError | InternalError
-union AccountOperationResult = AccountResultSuccess | InputError | InternalError
+union AccountResult = Account | BaseError | InputError | InternalError
+union AccountArrayResult = AccountList | BaseError | InputError | InternalError
+union AccountOperationResult =
+    AccountResultSuccess
+  | BaseError
+  | InputError
+  | InternalError
 
 type Account {
   id: Int!

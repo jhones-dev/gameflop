@@ -74,6 +74,16 @@ export default {
             statusCode: 'HTTP201',
             message: 'Your review was added and is under approval.',
           };
+      } else {
+        error = {
+          __typename: 'InternalError',
+          statusCode: 'REV210',
+          message: 'Failed to create review.',
+          action: 'Review creation',
+          operation: 'Insert',
+        };
+
+        return error;
       }
     },
   },

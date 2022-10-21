@@ -28,6 +28,8 @@ interface Error {
   message: String!
 }
 
+type BaseError implements Error {}
+
 type InputError implements Error {
   statusCode: String!
   message: String!

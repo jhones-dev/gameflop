@@ -54,6 +54,16 @@ export default {
           statusCode: 'HTTP201',
           message: 'Publisher created successfully.',
         };
+      } else {
+        error = {
+          __typename: 'InternalError',
+          statusCode: 'PUB210',
+          message: 'Failed to create publisher.',
+          action: 'Publisher creation',
+          operation: 'Insert',
+        };
+
+        return error;
       }
     },
   },

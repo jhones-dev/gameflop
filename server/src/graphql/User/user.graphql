@@ -5,7 +5,7 @@ type Query {
     orderBy: UserOrderByInput
     skip: Int
     take: Int
-  ): [User]
+  ): [UserArrayResult]
 }
 
 type Mutation {
@@ -17,7 +17,7 @@ type Mutation {
     badges: [String]
     favoriteList: [Int]
     permission: Int
-  ): User
+  ): UserOperationResult!
   AddAccountWithUser(
     name: String!
     email: String!
@@ -27,8 +27,16 @@ type Mutation {
     badges: [String]
     favoriteList: [Int]
     permission: Int
-  ): User
+  ): UserOperationResult!
 }
+
+union UserResult = User | BaseError | InputError | InternalError
+union UserArrayResult = UserList | BaseError | InputError | InternalError
+union UserOperationResult =
+    UserResultSuccess
+  | BaseError
+  | InputError
+  | InternalError
 
 type User {
   id: Int!
@@ -39,6 +47,15 @@ type User {
   badges: [String]
   favoriteList: [Int]
   permission: Int!
+}
+
+type UserList {
+  users: [User]
+}
+
+type UserResultSuccess {
+  statusCode: String!
+  message: String!
 }
 
 input UserInput {

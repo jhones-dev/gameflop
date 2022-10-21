@@ -12,8 +12,12 @@ type Mutation {
   AddPublisher(name: String!): PublisherOperationResult
 }
 
-union PublisherResult = Publisher | InputError | InternalError
-union PublisherArrayResult = PublisherList | InputError | InternalError
+union PublisherResult = Publisher | BaseError | InputError | InternalError
+union PublisherArrayResult =
+    PublisherList
+  | BaseError
+  | InputError
+  | InternalError
 union PublisherOperationResult =
     PublisherResultSuccess
   | InputError

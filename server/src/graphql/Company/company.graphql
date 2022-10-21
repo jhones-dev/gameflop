@@ -26,9 +26,13 @@ type Mutation {
   ): CompanyOperationResult
 }
 
-union CompanyResult = Company | InputError | InternalError
-union CompanyArrayResult = CompanyList | InputError | InternalError
-union CompanyOperationResult = CompanyResultSuccess | InputError | InternalError
+union CompanyResult = Company | BaseError | InputError | InternalError
+union CompanyArrayResult = CompanyList | BaseError | InputError | InternalError
+union CompanyOperationResult =
+    CompanyResultSuccess
+  | BaseError
+  | InputError
+  | InternalError
 
 type Company {
   id: Int!

@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
-import type { ApolloContext } from '../..';
+import type { BaseError, InputError, InternalError } from '../..';
 
 const prisma = new PrismaClient();
 
@@ -18,7 +18,9 @@ export default {
       _: undefined,
       args: Prisma.usersUncheckedCreateInput & { accountId: number }
     ) => {
-      return prisma.users.create({
+      let error: BaseError | InputError | InternalError;
+
+      const user = await prisma.users.create({
         data: {
           name: args.name,
           photo: args.photo,
@@ -33,9 +35,29 @@ export default {
           },
         },
       });
+
+      if (user) {
+        return {
+          __typename: 'UserResultSuccess',
+          statusCode: 'HTTP201',
+          message: 'Account registration successful.',
+        };
+      } else {
+        error = {
+          __typename: 'InternalError',
+          statusCode: 'USR210',
+          message: 'Failed to create user.',
+          action: 'User creation',
+          operation: 'Insert',
+        };
+
+        return error;
+      }
     },
     AddAccountWithUser: async (_: undefined, args: AccountUser) => {
-      return prisma.users.create({
+      let error: BaseError | InputError | InternalError;
+
+      const user = await prisma.users.create({
         data: {
           name: args.name,
           photo: args.photo,
@@ -56,6 +78,24 @@ export default {
           },
         },
       });
+
+      if (user) {
+        return {
+          __typename: 'UserResultSuccess',
+          statusCode: 'HTTP201',
+          message: 'Account registration successful.',
+        };
+      } else {
+        error = {
+          __typename: 'InternalError',
+          statusCode: 'USR210',
+          message: 'Failed to create user.',
+          action: 'User creation',
+          operation: 'Insert',
+        };
+
+        return error;
+      }
     },
   },
 };

@@ -12,10 +12,15 @@ type Mutation {
   AddDeveloper(name: String!): DeveloperOperationResult
 }
 
-union DeveloperResult = Developer | InputError | InternalError
-union DeveloperArrayResult = DeveloperList | InputError | InternalError
+union DeveloperResult = Developer | BaseError | InputError | InternalError
+union DeveloperArrayResult =
+    DeveloperList
+  | BaseError
+  | InputError
+  | InternalError
 union DeveloperOperationResult =
     DeveloperResultSuccess
+  | BaseError
   | InputError
   | InternalError
 

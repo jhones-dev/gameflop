@@ -29,6 +29,8 @@ export default {
   },
   Mutation: {
     AddAccount: async (_: undefined, args: Prisma.accountsCreateInput) => {
+      let error: BaseError | InputError | InternalError;
+
       if (typeof args.password === 'string' && args.password.length) {
         const hash = await bcrypt.hash(
           args.password,
@@ -45,7 +47,24 @@ export default {
           message: 'Account created successfully.',
         };
       } else {
-        return prisma.accounts.create({ data: args });
+        if (args.socialMedia) {
+          prisma.accounts.create({ data: args });
+
+          return {
+            __typename: 'AccountResultSuccess',
+            statusCode: 'HTTP201',
+            message: 'Account created successfully.',
+          };
+        } else {
+          error = {
+            __typename: 'InputError',
+            statusCode: 'ACC102',
+            message: 'No password or social media provided.',
+            field: 'socialMedia',
+          };
+
+          return error;
+        }
       }
     },
     Login: async (_: undefined, args: LoginInput, context: ApolloContext) => {

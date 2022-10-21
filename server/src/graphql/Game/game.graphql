@@ -23,9 +23,13 @@ type Mutation {
   ): GameOperationResult
 }
 
-union GameResult = Game | InputError | InternalError
-union GameArrayResult = GameList | InputError | InternalError
-union GameOperationResult = GameResultSuccess | InputError | InternalError
+union GameResult = Game | BaseError | InputError | InternalError
+union GameArrayResult = GameList | BaseError | InputError | InternalError
+union GameOperationResult =
+    GameResultSuccess
+  | BaseError
+  | InputError
+  | InternalError
 
 type Game {
   id: Int!

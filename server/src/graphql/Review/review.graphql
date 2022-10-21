@@ -20,9 +20,13 @@ type Mutation {
   ): ReviewOperationResult
 }
 
-union ReviewResult = Review | InputError | InternalError
-union ReviewArrayResult = ReviewList | InputError | InternalError
-union ReviewOperationResult = ReviewResultSuccess | InputError | InternalError
+union ReviewResult = Review | BaseError | InputError | InternalError
+union ReviewArrayResult = ReviewList | BaseError | InputError | InternalError
+union ReviewOperationResult =
+    ReviewResultSuccess
+  | BaseError
+  | InputError
+  | InternalError
 
 type Review {
   id: Int!

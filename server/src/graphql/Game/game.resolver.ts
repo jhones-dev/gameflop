@@ -72,6 +72,16 @@ export default {
           statusCode: 'HTTP201',
           message: 'Game created successfully.',
         };
+      } else {
+        error = {
+          __typename: 'InternalError',
+          statusCode: 'GAM210',
+          message: 'Failed to create game.',
+          action: 'Game creation',
+          operation: 'Insert',
+        };
+
+        return error;
       }
     },
   },

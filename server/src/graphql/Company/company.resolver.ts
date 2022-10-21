@@ -22,6 +22,8 @@ export default {
       _: undefined,
       args: Prisma.companiesUncheckedCreateInput
     ) => {
+      let error: BaseError | InputError | InternalError;
+
       const company = await prisma.companies.create({
         data: {
           name: args.name,
@@ -42,6 +44,16 @@ export default {
           statusCode: 'HTTP201',
           message: 'Company created successfully.',
         };
+      } else {
+        error = {
+          __typename: 'InternalError',
+          statusCode: 'EMP201',
+          message: 'Failed to create company.',
+          action: 'Company creation',
+          operation: 'Insert',
+        };
+
+        return error;
       }
     },
     AddAccountWithCompany: async (_: undefined, args: AccountCompany) => {
@@ -89,6 +101,16 @@ export default {
           statusCode: 'HTTP201',
           message: 'Company created successfully.',
         };
+      } else {
+        error = {
+          __typename: 'InternalError',
+          statusCode: 'EMP201',
+          message: 'Failed to create company.',
+          action: 'Company creation',
+          operation: 'Insert',
+        };
+
+        return error;
       }
     },
   },
