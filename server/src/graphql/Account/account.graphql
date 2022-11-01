@@ -5,7 +5,7 @@ type Query {
     orderBy: AccountOrderByInput
     skip: Int
     take: Int
-  ): [AccountArrayResult]
+  ): AccountArrayResult
 }
 
 type Mutation {
@@ -21,7 +21,7 @@ type Mutation {
 union AccountResult = Account | BaseError | InputError | InternalError
 union AccountArrayResult = AccountList | BaseError | InputError | InternalError
 union AccountOperationResult =
-    AccountResultSuccess
+    ResultSuccess
   | BaseError
   | InputError
   | InternalError
@@ -38,11 +38,6 @@ type Account {
 
 type AccountList {
   accounts: [Account]
-}
-
-type AccountResultSuccess {
-  statusCode: String!
-  message: String!
 }
 
 type SocialMedia {

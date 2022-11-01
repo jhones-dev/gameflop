@@ -7,9 +7,6 @@ const secretOrPrivateKey = isDevelopment
   ? process.env.JWT_SECRET_DEV
   : process.env.JWT_SECRET_PROD;
 
-export const isJwt = (value: string) =>
-  !!value.match(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_.+/=]*$/);
-
 export const generateJwt = ({ subject, ...payload }: JwtArgs) => {
   if (!secretOrPrivateKey) return;
 

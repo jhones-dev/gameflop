@@ -14,7 +14,7 @@ export default {
   Query: {
     Games: (_: undefined, args: Prisma.gamesFindManyArgs) => {
       return {
-        __typename: 'GameArrayResult',
+        __typename: 'GameResult',
         games: prisma.games.findMany(args),
       };
     },
@@ -68,7 +68,7 @@ export default {
 
       if (game) {
         return {
-          __typename: 'GameResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP201',
           message: 'Game created successfully.',
         };

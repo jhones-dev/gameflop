@@ -10,7 +10,10 @@ type AccountUser = Prisma.usersUncheckedCreateInput &
 export default {
   Query: {
     Users: (_: undefined, args: Prisma.usersFindManyArgs) => {
-      return prisma.users.findMany(args);
+      return {
+        __typename: 'UserList',
+        reviews: prisma.users.findMany(args),
+      };
     },
   },
   Mutation: {
@@ -38,7 +41,7 @@ export default {
 
       if (user) {
         return {
-          __typename: 'UserResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP201',
           message: 'Account registration successful.',
         };
@@ -81,7 +84,7 @@ export default {
 
       if (user) {
         return {
-          __typename: 'UserResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP201',
           message: 'Account registration successful.',
         };

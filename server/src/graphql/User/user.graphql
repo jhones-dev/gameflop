@@ -5,7 +5,7 @@ type Query {
     orderBy: UserOrderByInput
     skip: Int
     take: Int
-  ): [UserArrayResult]
+  ): UserArrayResult
 }
 
 type Mutation {
@@ -33,7 +33,7 @@ type Mutation {
 union UserResult = User | BaseError | InputError | InternalError
 union UserArrayResult = UserList | BaseError | InputError | InternalError
 union UserOperationResult =
-    UserResultSuccess
+    ResultSuccess
   | BaseError
   | InputError
   | InternalError
@@ -51,11 +51,6 @@ type User {
 
 type UserList {
   users: [User]
-}
-
-type UserResultSuccess {
-  statusCode: String!
-  message: String!
 }
 
 input UserInput {

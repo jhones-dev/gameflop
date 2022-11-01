@@ -13,7 +13,7 @@ export default {
   Query: {
     Reviews: (_: undefined, args: Prisma.reviewsFindManyArgs) => {
       return {
-        __typename: 'ReviewArrayResult',
+        __typename: 'ReviewList',
         reviews: prisma.reviews.findMany(args),
       };
     },
@@ -64,13 +64,13 @@ export default {
       if (review) {
         if (review.status === 'published')
           return {
-            __typename: 'ReviewResultSuccess',
+            __typename: 'ResultSuccess',
             statusCode: 'HTTP201',
             message: 'Your review was added and is already published.',
           };
         else if (review.status === 'pending')
           return {
-            __typename: 'ReviewResultSuccess',
+            __typename: 'ResultSuccess',
             statusCode: 'HTTP201',
             message: 'Your review was added and is under approval.',
           };

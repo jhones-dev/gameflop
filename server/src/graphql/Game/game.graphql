@@ -26,7 +26,7 @@ type Mutation {
 union GameResult = Game | BaseError | InputError | InternalError
 union GameArrayResult = GameList | BaseError | InputError | InternalError
 union GameOperationResult =
-    GameResultSuccess
+    ResultSuccess
   | BaseError
   | InputError
   | InternalError
@@ -47,11 +47,6 @@ type Game {
 
 type GameList {
   games: [Game]
-}
-
-type GameResultSuccess {
-  statusCode: String!
-  message: String!
 }
 
 input GameInput {

@@ -23,21 +23,29 @@ enum ReviewStatus {
 }
 
 # Generics
-interface Error {
+interface HttpResponse {
   statusCode: String!
   message: String!
 }
 
-type BaseError implements Error {}
+type ResultSuccess implements HttpResponse {
+  statusCode: String!
+  message: String!
+}
 
-type InputError implements Error {
+type BaseError implements HttpResponse {
+  statusCode: String!
+  message: String!
+}
+
+type InputError implements HttpResponse {
   statusCode: String!
   message: String!
   field: String!
   details: String
 }
 
-type InternalError implements Error {
+type InternalError implements HttpResponse {
   statusCode: String!
   message: String!
   action: String!

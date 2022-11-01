@@ -23,7 +23,7 @@ type Mutation {
 union ReviewResult = Review | BaseError | InputError | InternalError
 union ReviewArrayResult = ReviewList | BaseError | InputError | InternalError
 union ReviewOperationResult =
-    ReviewResultSuccess
+    ResultSuccess
   | BaseError
   | InputError
   | InternalError
@@ -41,11 +41,6 @@ type Review {
 
 type ReviewList {
   reviews: [Review]
-}
-
-type ReviewResultSuccess {
-  statusCode: String!
-  message: String!
 }
 
 input ReviewInput {

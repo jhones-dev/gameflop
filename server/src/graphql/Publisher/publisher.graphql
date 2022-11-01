@@ -18,10 +18,7 @@ union PublisherArrayResult =
   | BaseError
   | InputError
   | InternalError
-union PublisherOperationResult =
-    PublisherResultSuccess
-  | InputError
-  | InternalError
+union PublisherOperationResult = ResultSuccess | InputError | InternalError
 
 type Publisher {
   id: Int!
@@ -30,11 +27,6 @@ type Publisher {
 
 type PublisherList {
   publishers: [Publisher]
-}
-
-type PublisherResultSuccess {
-  statusCode: String!
-  message: String!
 }
 
 input PublisherInput {

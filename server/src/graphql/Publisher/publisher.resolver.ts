@@ -13,7 +13,7 @@ export default {
   Query: {
     Publishers: (_: undefined, args: Prisma.publishersFindManyArgs) => {
       return {
-        __typename: 'PublisherArrayResult',
+        __typename: 'PublisherList',
         publishers: prisma.publishers.findMany(args),
       };
     },
@@ -50,7 +50,7 @@ export default {
 
       if (publisher) {
         return {
-          __typename: 'PublisherResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP201',
           message: 'Publisher created successfully.',
         };

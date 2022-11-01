@@ -50,7 +50,7 @@ export default {
 
       if (developer) {
         return {
-          __typename: 'DeveloperResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP201',
           message: 'Developer created successfully.',
         };

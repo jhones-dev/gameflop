@@ -31,10 +31,21 @@ export default {
     AddAccount: async (_: undefined, args: Prisma.accountsCreateInput) => {
       let error: BaseError | InputError | InternalError;
 
+      if (!args.email) {
+        error = {
+          __typename: 'InputError',
+          statusCode: 'ACC100',
+          message: 'Invalid email.',
+          field: 'email',
+        };
+
+        return error;
+      }
+
       if (typeof args.password === 'string' && args.password.length) {
         const hash = await bcrypt.hash(
           args.password,
-          process.env.SALTROUNDS || 10
+          Number(process.env.SALTROUNDS) || 10
         );
 
         prisma.accounts.create({
@@ -42,7 +53,7 @@ export default {
         });
 
         return {
-          __typename: 'AccountResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP201',
           message: 'Account created successfully.',
         };
@@ -51,7 +62,7 @@ export default {
           prisma.accounts.create({ data: args });
 
           return {
-            __typename: 'AccountResultSuccess',
+            __typename: 'ResultSuccess',
             statusCode: 'HTTP201',
             message: 'Account created successfully.',
           };
@@ -137,7 +148,7 @@ export default {
         });
 
         return {
-          __typename: 'AccountResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP200',
           message: 'Login success',
         };

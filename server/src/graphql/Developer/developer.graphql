@@ -19,7 +19,7 @@ union DeveloperArrayResult =
   | InputError
   | InternalError
 union DeveloperOperationResult =
-    DeveloperResultSuccess
+    ResultSuccess
   | BaseError
   | InputError
   | InternalError
@@ -31,11 +31,6 @@ type Developer {
 
 type DeveloperList {
   developers: [Developer]
-}
-
-type DeveloperResultSuccess {
-  statusCode: String!
-  message: String!
 }
 
 input DeveloperInput {

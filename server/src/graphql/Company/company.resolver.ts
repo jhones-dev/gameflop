@@ -40,7 +40,7 @@ export default {
 
       if (company) {
         return {
-          __typename: 'CompanyResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP201',
           message: 'Company created successfully.',
         };
@@ -72,7 +72,7 @@ export default {
 
       const hash = await bcrypt.hash(
         args.password,
-        process.env.SALTROUNDS || 10
+        Number(process.env.SALTROUNDS) || 10
       );
 
       const company = await prisma.companies.create({
@@ -97,7 +97,7 @@ export default {
 
       if (company) {
         return {
-          __typename: 'CompanyResultSuccess',
+          __typename: 'ResultSuccess',
           statusCode: 'HTTP201',
           message: 'Company created successfully.',
         };
